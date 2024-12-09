@@ -1,6 +1,7 @@
 package com.devteria.profile.controller;
 
 import com.devteria.profile.Service.UserProfileService;
+import com.devteria.profile.dto.ApiResponse;
 import com.devteria.profile.dto.response.UserProfileResponse;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -16,12 +17,16 @@ public class UserProfileController {
     UserProfileService userProfileService;
 
     @GetMapping("/users/{profileId}")
-    UserProfileResponse getProfile(@PathVariable String profileId){
-        return userProfileService.getUserProfile(profileId);
+    ApiResponse<UserProfileResponse> getProfile(@PathVariable String profileId) {
+        return ApiResponse.<UserProfileResponse>builder()
+                .result(userProfileService.getUserProfile(profileId))
+                .build();
     }
 
     @GetMapping("/users")
-    List<UserProfileResponse> getAllProfile(){
-        return userProfileService.getAllUser();
+    ApiResponse<List<UserProfileResponse>> getAllProfiles() {
+        return ApiResponse.<List<UserProfileResponse>>builder()
+                .result(userProfileService.getAllUser())
+                .build();
     }
 }
